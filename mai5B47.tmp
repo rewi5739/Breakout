@@ -1,0 +1,82 @@
+[gd_scene load_steps=9 format=3 uid="uid://dfy8fwlabt43a"]
+
+[ext_resource type="Script" path="res://ball.gd" id="1_agbiu"]
+[ext_resource type="Script" path="res://paddle.gd" id="2_86owy"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_0yvjk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejsav"]
+size = Vector2(22, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k0ow3"]
+size = Vector2(256, 12)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_gpcys"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dvq7j"]
+size = Vector2(48, 668)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ui4gq"]
+size = Vector2(1190, 20)
+
+[node name="Main" type="Node2D"]
+
+[node name="Ball" type="CharacterBody2D" parent="."]
+position = Vector2(543, 274)
+motion_mode = 1
+script = ExtResource("1_agbiu")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ball"]
+scale = Vector2(20.0001, 20)
+texture = SubResource("CanvasTexture_0yvjk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("RectangleShape2D_ejsav")
+
+[node name="Paddle" type="CharacterBody2D" parent="."]
+position = Vector2(726, 572)
+motion_mode = 1
+script = ExtResource("2_86owy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle"]
+shape = SubResource("RectangleShape2D_k0ow3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Paddle"]
+scale = Vector2(254, 12)
+texture = SubResource("CanvasTexture_gpcys")
+
+[node name="Paddle2" type="CharacterBody2D" parent="."]
+position = Vector2(726, 96)
+motion_mode = 1
+script = ExtResource("2_86owy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle2"]
+shape = SubResource("RectangleShape2D_k0ow3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Paddle2"]
+scale = Vector2(254, 12)
+texture = SubResource("CanvasTexture_gpcys")
+
+[node name="Left Wall" type="StaticBody2D" parent="."]
+position = Vector2(-24, 318)
+
+[node name="L Shape" type="CollisionShape2D" parent="Left Wall"]
+shape = SubResource("RectangleShape2D_dvq7j")
+
+[node name="Right Wall" type="StaticBody2D" parent="."]
+position = Vector2(1176, 330)
+
+[node name="R Shape" type="CollisionShape2D" parent="Right Wall"]
+shape = SubResource("RectangleShape2D_dvq7j")
+
+[node name="Roof" type="StaticBody2D" parent="."]
+position = Vector2(575, -10)
+
+[node name="Roof Shape" type="CollisionShape2D" parent="Roof"]
+shape = SubResource("RectangleShape2D_ui4gq")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(579, 658)
+
+[node name="Floor Shape" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("RectangleShape2D_ui4gq")
