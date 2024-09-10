@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+signal collision_shake(strength: float)
 ## Initial/current speed of the ball
 @export var speed: float = 3.0
 @export var max_speed: float = 10.0
@@ -17,12 +18,14 @@ var paddle_width: float = 170#paddle_shape.shape.get_rect.size.x
 var current_score:int = 0
 var is_running: bool = false
 var game_over = false
+var ball_power: float = 3.0/9.0 #starting ball size / max ball size
 var num_bricks: int = 30
 var default_ball_size: int = 30
 
 func _ready() -> void:
 	ball_shape.shape.size = Vector2(default_ball_size, default_ball_size)
 	ball_sprite.scale = Vector2(default_ball_size, default_ball_size)
+	print(ball_power)
 
 func _physics_process(delta: float) -> void:
 	if (not is_running):
@@ -43,9 +46,11 @@ func _physics_process(delta: float) -> void:
 		speed = clamp(speed + 0.2, .1, max_speed)
 		
 		if (collision.get_collider().is_in_group("Bricks")):
+			collision_shake.emit(ball_power)
 			num_bricks -= 1
 			ball_shape.shape.size -= shrink_factor
 			ball_sprite.scale -= shrink_factor
+			ball_power = ball_sprite.scale.x / 90
 			current_score +=1
 			var temp_text = "Score: " + str(current_score)
 			score_label.set_text(temp_text)
@@ -55,6 +60,8 @@ func _physics_process(delta: float) -> void:
 			collision.get_collider().queue_free()
 		
 		if (collision.get_collider().is_in_group("Paddle")):
+			print("paddle Collision : ", ball_power * 0.4)
+			collision_shake.emit(ball_power * 0.4)
 			var paddle_x = collision.get_collider().position.x - 85
 			var pos_on_paddle = (position.x - paddle_x)/paddle_width
 			var bounce_angle = lerp(-PI + 0.2 , 0.2, pos_on_paddle)

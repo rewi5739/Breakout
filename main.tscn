@@ -198,3 +198,5 @@ shape = SubResource("RectangleShape2D_ds5o7")
 position = Vector2(576, 324)
 script = ExtResource("4_00ixv")
 noise = SubResource("FastNoiseLite_m72xo")
+
+[connection signal="collision_shake" from="Ball" to="Camera2D" method="_on_ball_collision_shake"]
