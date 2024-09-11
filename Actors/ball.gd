@@ -7,25 +7,26 @@ signal collision_shake(strength: float)
 @export var score_label: RichTextLabel
 @export var start_text: RichTextLabel
 @export var paddle_shape: CollisionShape2D
-@export var shrink_factor: Vector2 = Vector2(2,2)
+@export var sprite_shrink_factor: Vector2 = Vector2(1./15.,1./15.)
+@export var hitbox_shrink_factor: Vector2 = Vector2(2, 2)
 
 @onready var ball_shape = $CollisionShape2D
 @onready var ball_sprite = $Sprite2D
 @onready var main = $/root
 var particlesScenePL = preload("res://Particles.tscn")
 var forward: Vector2 = Vector2(1,1).normalized()
-var paddle_width: float = 170#paddle_shape.shape.get_rect.size.x
+var paddle_width: float = 168#paddle_shape.shape.get_rect.size.x
 var current_score:int = 0
 var is_running: bool = false
 var game_over = false
 var ball_power: float = 3.0/9.0 #starting ball size / max ball size
 var num_bricks: int = 30
-var default_ball_size: int = 30
+var default_ball_size: int = 1
 
 func _ready() -> void:
-	ball_shape.shape.size = Vector2(default_ball_size, default_ball_size)
+	ball_shape.shape.size = Vector2(30, 30)
 	ball_sprite.scale = Vector2(default_ball_size, default_ball_size)
-	print(ball_power)
+	#print(ball_power)
 
 func _physics_process(delta: float) -> void:
 	if (not is_running):
@@ -48,9 +49,10 @@ func _physics_process(delta: float) -> void:
 		if (collision.get_collider().is_in_group("Bricks")):
 			collision_shake.emit(ball_power)
 			num_bricks -= 1
-			ball_shape.shape.size -= shrink_factor
-			ball_sprite.scale -= shrink_factor
-			ball_power = ball_sprite.scale.x / 90
+			ball_shape.shape.size -= hitbox_shrink_factor
+			ball_sprite.scale -= sprite_shrink_factor
+			print(ball_sprite.scale.x, " & ", sprite_shrink_factor)
+			ball_power = ball_sprite.scale.x / 3
 			current_score +=1
 			var temp_text = "Score: " + str(current_score)
 			score_label.set_text(temp_text)
@@ -74,4 +76,5 @@ func _physics_process(delta: float) -> void:
 			start_text.set_text("Game Over")
 		
 		if (collision.get_collider().is_in_group("Powerup")):
-			shrink_factor = Vector2(-2,-2)
+			sprite_shrink_factor *= -1
+			hitbox_shrink_factor *= -1

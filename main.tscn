@@ -2,18 +2,16 @@
 
 [ext_resource type="Script" path="res://Actors/ball.gd" id="1_agbiu"]
 [ext_resource type="Script" path="res://Actors/paddle.gd" id="2_86owy"]
+[ext_resource type="Texture2D" uid="uid://bjqg0kwgutgbj" path="res://Assets/Ball.png" id="2_d64x5"]
 [ext_resource type="PackedScene" uid="uid://bij56bk4wcg5v" path="res://Actors/Brick.tscn" id="3_6f2x3"]
+[ext_resource type="Texture2D" uid="uid://dr78f34w47ual" path="res://Assets/Paddle.png" id="3_50ob6"]
 [ext_resource type="Script" path="res://camera_2d.gd" id="4_00ixv"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_0yvjk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejsav"]
 size = Vector2(30, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k0ow3"]
 size = Vector2(170, 12)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_gpcys"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dvq7j"]
 size = Vector2(48, 668)
@@ -46,8 +44,8 @@ start_text = NodePath("../Start Text")
 paddle_shape = NodePath("../Paddle/CollisionShape2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="Ball"]
-scale = Vector2(30, 30)
-texture = SubResource("CanvasTexture_0yvjk")
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("2_d64x5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
 shape = SubResource("RectangleShape2D_ejsav")
@@ -61,8 +59,7 @@ script = ExtResource("2_86owy")
 shape = SubResource("RectangleShape2D_k0ow3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Paddle"]
-scale = Vector2(168, 12)
-texture = SubResource("CanvasTexture_gpcys")
+texture = ExtResource("3_50ob6")
 
 [node name="Left Wall" type="StaticBody2D" parent="."]
 position = Vector2(-24, 318)
